@@ -238,6 +238,173 @@
             
               
                 
+                <a class="post-title-link" href="/2017/01/18/linuxNote03/" itemprop="url">
+                  linuxNote03
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-01-18T14:37:20+08:00" content="2017-01-18">
+              2017-01-18
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>今天我复习并实现了了几个典型的数据结构题目：<br>1、一个for循环实现99乘法表；<br>2、插入排序；<br>3、哈夫曼编码；</p>
+<p>总结，前面两个问题已经掌握比较熟练，第三个问题还需要多加练习，其中的内存机制了解的不是很清晰，导致程序运行崩溃。</p>
+<p>问题1主要考察for循环的循环增长机制，不单单是以前的++i或者i++,还可以缺省，利用循环体中的语句改变他的值，从而增加了程序的灵活性。</p>
+<p>#include<stdio.h><br>int main()<br>{<br>    int i=1,j=1;<br>    for(i=1;i&lt;=9;)<br>    {<br>        if(j&lt;=i)<br>        {<br>            printf(“  %d <em> %d =%2d”,j,i,j</em>i);<br>            j++;<br>        }<br>        else<br>        {<br>            j=1;<br>            i++;<br>            printf(“\n”);<br>        }<br>    }<br>    return 0;<br>}<br>问题二，的算法思想就是排序n-1躺，每一趟将第p个位置上的数插入前p+1(从0开始)数中，使前p(躺数)+1个数有序；</p>
+<p>#include<stdio.h></p>
+<p>void sort(int a[],int N)<br>{<br>    int i=0,p=0,tmp=0;<br>    for(p = 1;p<N;p++)
+    {
+        tmp = a[p];
+        for(i = p; i>0 &amp;&amp; a[i-1]&gt;tmp;i–)<br>        {<br>               a[i]=a[i-1];<br>        }<br>        a[i]=tmp;</p>
+<pre><code>}
+for(i=0;i&lt;N;i++)
+{
+    printf(&quot;%d\n&quot;,a[i]);
+}
+</code></pre><p>}<br>int main()<br>{<br>    int N=0;<br>    int a[]={34,8,64,51,32,21};<br>    N=sizeof(a)/sizeof(int);<br>    sort(a,N);<br>    return 0;<br>}</p>
+<p>问题三我的问题代码如下，尚待进一步调试：</p>
+<p>#include<malloc.h></p>
+<p>#include<string.h></p>
+<p>#include<iostream><br>using namespace std;</p>
+<p>#define Max 32767</p>
+<p>typedef struct<br>{<br>    char value;<br>    int lchild,rchild,parent;<br>    int weight;<br>}HTNode,<em>HuffTree;<br>typedef char *</em>HuffCode;</p>
+<p>void CreatHuffTree(HuffTree &amp;HT,int <em>w,char </em>a,int n)<br>{<br>    HT=(HuffTree )malloc(sizeof(HTNode)<em>(2</em>n-1));<br>    int i=0,j=0;<br>    int s1 =0, s2=0;<br>    int min1 = Max,min2 = Max;<br>    for(i=0;i&lt;n;++i)//初始化<br>    {<br>        HT[i].value=a[i];<br>        HT[i].weight=w[i];<br>        HT[i].lchild=-1;<br>        HT[i].rchild=-1;<br>        HT[i].parent=-1;<br>    }<br>    for(i=n;i&lt;2*n-1;++i)<br>    {<br>    //    HT[i].value=’-1’;<br>        HT[i].weight=-1;<br>        HT[i].lchild=-1;<br>        HT[i].rchild=-1;<br>        HT[i].parent=-1;<br>    }</p>
+<pre><code>for(i=n;i&lt;2*n;++i)
+{
+    min1=Max,min2=Max;
+    //找权值最小的两个并记录 它们的下标 
+    for(j=0;j&lt;i;++j)
+    {
+        if(HT[j].weight&lt;min1 &amp;&amp; HT[j].parent==-1)
+        {
+            min2=min1;
+            s2=s1;
+            min1 =HT[j].weight;
+            s1=j;    
+        }
+        else if(HT[j].weight&gt;min1 &amp;&amp; HT[j].weight&lt;min2&amp;&amp; HT[j].parent==-1 )
+        {
+            min2=HT[j].weight;
+            s2=j;     
+        }
+    }
+    HT[i].weight = HT[s1].weight +HT[s2].weight;
+    HT[i].lchild = s1;
+    HT[i].rchild = s2;
+    HT[s1].parent = i;
+    HT[s2].parent = i;
+
+}
+</code></pre><p>}<br>void CreatHuffCode(HuffTree &amp;HT,HuffCode &amp;HC,int n)<br>{<br>    int i=0,j=0,parent=0,c=0;<br>    char<em> code= NULL;<br>    HC = (HuffCode)malloc((n+1)</em>sizeof(char <em>));<br>    code = (char</em>)malloc((n+1)*sizeof(char));</p>
+<pre><code>for(i=0;i&lt;n;++i)
+{
+    for(c=0,parent=HT[c].parent,j=0;parent!=-1;c=parent,parent=HT[c].parent)
+    {
+        if(c==HT[parent].lchild)
+        {
+            code[j++]=&apos;0&apos;;
+        }
+        else if (c==HT[parent].rchild)
+        {
+            code[j++]=&apos;1&apos;;
+        }
+    }
+    code[j]=&apos;\0&apos;;
+
+    HC[i]=(char *)malloc(strlen(code)*sizeof(char));
+    strcpy(HC[i],code);  
+    free(code);
+
+}
+</code></pre><p>}<br>void PrintHuffCode(HuffCode &amp;HC,int n)<br>{<br>    int i=0;<br>    for(i=0;i&lt;n;++i)<br>    {<br>    cout&lt;&lt;HC[i];<br>    }</p>
+<p>}<br>int main()<br>{<br>    char s[]={‘A’,’B’,’C’,’D’,’E’};<br>    int  weight[] ={12, 5, 14, 36, 33};<br>    int n = sizeof(s)/sizeof(char);<br>    cout&lt;&lt;n;<br>    HuffTree HT;<br>    HuffCode HC;<br>    CreatHuffTree(HT,weight,s,n);<br>    CreatHuffCode(HT,HC,n);<br>    PrintHuffCode(HC,n);<br>    return 0;</p>
+<p>}<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/01/18/linuxNote03/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/01/16/LinuxNote02/" itemprop="url">
                   未命名
                 </a>
@@ -573,13 +740,20 @@ c 字符设备    ls -l/dev/dey*
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-count">4</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           
 
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
           
 
         </nav>

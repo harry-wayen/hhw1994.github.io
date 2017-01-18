@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="linux," />
 
 
 
@@ -84,19 +84,25 @@
 
 
 
-<meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="description" content="今天我复习并实现了了几个典型的数据结构题目：1、一个for循环实现99乘法表；2、插入排序；3、哈夫曼编码；
+总结，前面两个问题已经掌握比较熟练，第三个问题还需要多加练习，其中的内存机制了解的不是很清晰，导致程序运行崩溃。
+问题1主要考察for循环的循环增长机制，不单单是以前的++i或者i++,还可以缺省，利用循环体中的语句改变他的值，从而增加了程序的灵活性。
+#includeint main()">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://hhw1994.github.io/2016/11/05/hello-world/index.html">
+<meta property="og:title" content="linuxNote03">
+<meta property="og:url" content="http://hhw1994.github.io/2017/01/18/linuxNote03/index.html">
 <meta property="og:site_name" content="Hhw's Blog">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
-<meta property="og:updated_time" content="2016-11-05T12:39:47.530Z">
+<meta property="og:description" content="今天我复习并实现了了几个典型的数据结构题目：1、一个for循环实现99乘法表；2、插入排序；3、哈夫曼编码；
+总结，前面两个问题已经掌握比较熟练，第三个问题还需要多加练习，其中的内存机制了解的不是很清晰，导致程序运行崩溃。
+问题1主要考察for循环的循环增长机制，不单单是以前的++i或者i++,还可以缺省，利用循环体中的语句改变他的值，从而增加了程序的灵活性。
+#includeint main()">
+<meta property="og:updated_time" content="2017-01-18T06:39:42.628Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="twitter:title" content="linuxNote03">
+<meta name="twitter:description" content="今天我复习并实现了了几个典型的数据结构题目：1、一个for循环实现99乘法表；2、插入排序；3、哈夫曼编码；
+总结，前面两个问题已经掌握比较熟练，第三个问题还需要多加练习，其中的内存机制了解的不是很清晰，导致程序运行崩溃。
+问题1主要考察for循环的循环增长机制，不单单是以前的++i或者i++,还可以缺省，利用循环体中的语句改变他的值，从而增加了程序的灵活性。
+#includeint main()">
 
 
 
@@ -117,10 +123,10 @@ Quick">
 
 
 
-  <link rel="canonical" href="http://hhw1994.github.io/2016/11/05/hello-world/"/>
+  <link rel="canonical" href="http://hhw1994.github.io/2017/01/18/linuxNote03/"/>
 
 
-  <title> Hello World | Hhw's Blog </title>
+  <title> linuxNote03 | Hhw's Blog </title>
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -242,7 +248,7 @@ Quick">
             
             
               
-                Hello World
+                linuxNote03
               
             
           </h1>
@@ -254,8 +260,8 @@ Quick">
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-11-05T20:39:47+08:00" content="2016-11-05">
-              2016-11-05
+            <time itemprop="dateCreated" datetime="2017-01-18T14:37:20+08:00" content="2017-01-18">
+              2017-01-18
             </time>
           </span>
 
@@ -282,15 +288,75 @@ Quick">
       
 
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+        <p>今天我复习并实现了了几个典型的数据结构题目：<br>1、一个for循环实现99乘法表；<br>2、插入排序；<br>3、哈夫曼编码；</p>
+<p>总结，前面两个问题已经掌握比较熟练，第三个问题还需要多加练习，其中的内存机制了解的不是很清晰，导致程序运行崩溃。</p>
+<p>问题1主要考察for循环的循环增长机制，不单单是以前的++i或者i++,还可以缺省，利用循环体中的语句改变他的值，从而增加了程序的灵活性。</p>
+<p>#include<stdio.h><br>int main()<br>{<br>    int i=1,j=1;<br>    for(i=1;i&lt;=9;)<br>    {<br>        if(j&lt;=i)<br>        {<br>            printf(“  %d <em> %d =%2d”,j,i,j</em>i);<br>            j++;<br>        }<br>        else<br>        {<br>            j=1;<br>            i++;<br>            printf(“\n”);<br>        }<br>    }<br>    return 0;<br>}<br>问题二，的算法思想就是排序n-1躺，每一趟将第p个位置上的数插入前p+1(从0开始)数中，使前p(躺数)+1个数有序；</stdio.h></p>
+<p>#include<stdio.h></stdio.h></p>
+<p>void sort(int a[],int N)<br>{<br>    int i=0,p=0,tmp=0;<br>    for(p = 1;p<n;p++) {="" tmp="a[p];" for(i="p;" i="">0 &amp;&amp; a[i-1]&gt;tmp;i–)<br>        {<br>               a[i]=a[i-1];<br>        }<br>        a[i]=tmp;</n;p++)></p>
+<pre><code>}
+for(i=0;i&lt;N;i++)
+{
+    printf(&quot;%d\n&quot;,a[i]);
+}
+</code></pre><p>}<br>int main()<br>{<br>    int N=0;<br>    int a[]={34,8,64,51,32,21};<br>    N=sizeof(a)/sizeof(int);<br>    sort(a,N);<br>    return 0;<br>}</p>
+<p>问题三我的问题代码如下，尚待进一步调试：</p>
+<p>#include<malloc.h></malloc.h></p>
+<p>#include<string.h></string.h></p>
+<p>#include<iostream><br>using namespace std;</iostream></p>
+<p>#define Max 32767</p>
+<p>typedef struct<br>{<br>    char value;<br>    int lchild,rchild,parent;<br>    int weight;<br>}HTNode,<em>HuffTree;<br>typedef char *</em>HuffCode;</p>
+<p>void CreatHuffTree(HuffTree &amp;HT,int <em>w,char </em>a,int n)<br>{<br>    HT=(HuffTree )malloc(sizeof(HTNode)<em>(2</em>n-1));<br>    int i=0,j=0;<br>    int s1 =0, s2=0;<br>    int min1 = Max,min2 = Max;<br>    for(i=0;i&lt;n;++i)//初始化<br>    {<br>        HT[i].value=a[i];<br>        HT[i].weight=w[i];<br>        HT[i].lchild=-1;<br>        HT[i].rchild=-1;<br>        HT[i].parent=-1;<br>    }<br>    for(i=n;i&lt;2*n-1;++i)<br>    {<br>    //    HT[i].value=’-1’;<br>        HT[i].weight=-1;<br>        HT[i].lchild=-1;<br>        HT[i].rchild=-1;<br>        HT[i].parent=-1;<br>    }</p>
+<pre><code>for(i=n;i&lt;2*n;++i)
+{
+    min1=Max,min2=Max;
+    //找权值最小的两个并记录 它们的下标 
+    for(j=0;j&lt;i;++j)
+    {
+        if(HT[j].weight&lt;min1 &amp;&amp; HT[j].parent==-1)
+        {
+            min2=min1;
+            s2=s1;
+            min1 =HT[j].weight;
+            s1=j;    
+        }
+        else if(HT[j].weight&gt;min1 &amp;&amp; HT[j].weight&lt;min2&amp;&amp; HT[j].parent==-1 )
+        {
+            min2=HT[j].weight;
+            s2=j;     
+        }
+    }
+    HT[i].weight = HT[s1].weight +HT[s2].weight;
+    HT[i].lchild = s1;
+    HT[i].rchild = s2;
+    HT[s1].parent = i;
+    HT[s2].parent = i;
+
+}
+</code></pre><p>}<br>void CreatHuffCode(HuffTree &amp;HT,HuffCode &amp;HC,int n)<br>{<br>    int i=0,j=0,parent=0,c=0;<br>    char<em> code= NULL;<br>    HC = (HuffCode)malloc((n+1)</em>sizeof(char <em>));<br>    code = (char</em>)malloc((n+1)*sizeof(char));</p>
+<pre><code>for(i=0;i&lt;n;++i)
+{
+    for(c=0,parent=HT[c].parent,j=0;parent!=-1;c=parent,parent=HT[c].parent)
+    {
+        if(c==HT[parent].lchild)
+        {
+            code[j++]=&apos;0&apos;;
+        }
+        else if (c==HT[parent].rchild)
+        {
+            code[j++]=&apos;1&apos;;
+        }
+    }
+    code[j]=&apos;\0&apos;;
+
+    HC[i]=(char *)malloc(strlen(code)*sizeof(char));
+    strcpy(HC[i],code);  
+    free(code);
+
+}
+</code></pre><p>}<br>void PrintHuffCode(HuffCode &amp;HC,int n)<br>{<br>    int i=0;<br>    for(i=0;i&lt;n;++i)<br>    {<br>    cout&lt;&lt;HC[i];<br>    }</p>
+<p>}<br>int main()<br>{<br>    char s[]={‘A’,’B’,’C’,’D’,’E’};<br>    int  weight[] ={12, 5, 14, 36, 33};<br>    int n = sizeof(s)/sizeof(char);<br>    cout&lt;&lt;n;<br>    HuffTree HT;<br>    HuffCode HC;<br>    CreatHuffTree(HT,weight,s,n);<br>    CreatHuffCode(HT,HC,n);<br>    PrintHuffCode(HC,n);<br>    return 0;</p>
+<p>}<br><a id="more"></a></p>
 
       
     </div>
@@ -311,18 +377,24 @@ Quick">
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/linux/" rel="tag">#linux</a>
+          
+        </div>
+      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/01/16/LinuxNote02/" rel="next" title="">
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/01/16/LinuxNote01/" rel="prev" title="">
-                 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -429,7 +501,7 @@ Quick">
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
         </section>
