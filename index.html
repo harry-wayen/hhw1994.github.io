@@ -238,6 +238,170 @@
             
               
                 
+                <a class="post-title-link" href="/2017/01/18/linuxNote04/" itemprop="url">
+                  linuxNote04
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-01-18T14:38:12+08:00" content="2017-01-18">
+              2017-01-18
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>1、可以看出vim有很好的语法检查功能，因为关键字都使用了不同的颜色标出；<br>vi有三种模式：<br>(1)一般模式：进入vi的默认模式，能够进行复制、黏贴、删除等操作；<br>(2)编辑模式：从一般模式按下‘i’即可进入；<br>(3)命令行模式：从一般模式按下“:”、’?’、’/‘即可进入；</p>
+<p>注意：如果安装了vim后，输入vi后也是使用vim编辑器，我们输入alias后看到“alias vi=’vim’”；<br>2、set nu,set nonu,设置（不设置）行号；<br>3、（0:停机<br>   （1：单用户形式，只root进行维护<br>   （2：多用户，不能使用net file system<br>   （3：完全多用户<br>   （5：图形化<br>   （4：安全模式<br>   （6：重启 </p>
+<p>其实，可以通过查看/etc/rc.d/中的rc*.d的文件来对比理解，不同的目录中包含的命令是不同的</p>
+<p>init 0，对应的系统会运行，/etc/rc.d/rc0.d里指定的程序</p>
+<p>S00killall、 S01halt</p>
+<p>这两个都表示为终止进程。故init 0是用于表示关机的。<br>4、增加用户<br>（1）、创建用户目录<br>（2）、1、添加用户</p>
+<pre><code>首先用adduser命令添加一个普通用户，命令如下：
+#adduser tommy  //添加一个名为tommy的用户
+#passwd tommy   //修改密码
+Changing password for user tommy.
+New UNIX password:     //在这里输入新密码
+Retype new UNIX password:  //再次输入新密码
+passwd: all authentication tokens updated successfully.
+
+2、赋予root权限
+ 方法一：修改 /etc/sudoers 文件，找到下面一行，把前面的注释（#）去掉
+ ## Allows people in group wheel to run all commands
+   %wheel    ALL=(ALL)    ALL
+  然后修改用户，使其属于root组（wheel），命令如下：
+  # usermod -g root tommy
+ 修改完毕，现在可以用tommy帐号登录，然后用命令 su - ，即可获得root权限进行操作。
+ 方法二：修改 /etc/sudoers 文件，找到下面一行，在root下面添加一行，如下所示：
+ ## Allow root to run any commands anywhere
+  root    ALL=(ALL)     ALL
+  tommy   ALL=(ALL)     ALL
+ 修改完毕，现在可以用tommy帐号登录，然后用命令 su - ，即可获得r      oot权限进行操作。
+3、  who am i 查看当前用户 
+
+&gt;&gt;参考2====================================
+
+用useradd新增的用户不能直接用ssh远程访问，需要修改ssh相关配置
+如下：
+添加
+AllowUsers root@192.168.1.32 admin
+多个用户用空格隔开
+</code></pre><p>5、权限管理<br>   （1）、<br>r w -                  r w -                 r - -<br>Owner (110)              group(110)           other  (100)   </p>
+<pre><code>更改权限
+chmod 0644 (8进制)
+</code></pre><p>   (2)、</p>
+<pre><code>建立软链接ln   -s   filename   softlinkname
+硬链接 ln        filename   harsdlinkname
+
+(3)、cat  查看软链接看的是目标文件的内容
+     如果想看软连接本身的内容 readlink
+     硬连接数
+     ln hello.c hard
+    mv 改名
+</code></pre><p>6、创建管道文件的方法<br>    mkfifo<br>特点必须同时读写，否则阻塞</p>
+<p>#include <stdio.h><br>// k 向上<br>// j 向下<br>// l 向右<br>// h 向左<br>// $ 当前行的行尾<br>// ^ 0 当前行的行首<br>// w 跳到下一个单词<br>// b 跳到上一个单词<br>// % 跳到对应的另一半括号<br>// { 上一个空白行<br>// } 下一个空白行</p>
+<p>// nx 删除n个字母 n缺省值是1<br>// ndw 删除n个单词,n缺省值是1<br>// u 撤销<br>// db 删除光标所在位置的前一个开始，到单词首<br>// D 光标所在位置，到当前行的行尾<br>// dG 删除光标所在行到文件结尾<br>// d} 删除当前行到下一个空白行</p>
+<p>// yy 复制当前行<br>// p 粘贴<br>// :r file 将file中的内容全部倒入到光标所在位置<br>// :vsp file 将屏幕垂直分隔 ctrl + ww </p>
+<p>void diamond(int r) {<br>    int x, y;</p>
+<pre><code>for (y=0; y&lt;=2*r; y++) {
+    for (x=0; x&lt;=2*r; x++) {
+        if ( y==x+r || y==x-r || 
+                y==-x+r || y==-x+3*r )
+            printf(&quot;*&quot;);
+        else
+            printf(&quot; &quot;);
+    }
+    printf(&quot;\n&quot;);
+}
+</code></pre><p>}</p>
+<p>int main( void ) {<br>    int r;</p>
+<pre><code>printf(&quot;r= &quot;);
+scanf(&quot;%d&quot;, &amp;r);
+
+diamond(r);
+</code></pre><p>}<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/01/18/linuxNote04/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/01/18/linuxNote03/" itemprop="url">
                   linuxNote03
                 </a>
@@ -740,7 +904,7 @@ c 字符设备    ls -l/dev/dey*
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-count">5</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
