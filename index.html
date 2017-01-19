@@ -238,6 +238,114 @@
             
               
                 
+                <a class="post-title-link" href="/2017/01/19/LinuxNote05/" itemprop="url">
+                  LinuxNote05
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-01-19T15:10:01+08:00" content="2017-01-19">
+              2017-01-19
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>权限管理<br>1、权限位一共10位  第一位带表文件类型，后面每三位组成一组，分别代表owner,group,others的读写执行权限<br>2、创建的文件默认权限是666 并且还受到umask的影响<br>mode &amp;(^umask</p>
+<p>3、创建的新目录默认权限是777<br>4、查找东西<br>   Find<br>   (1)、在/ l o g s目录中查找更改时间在5日以前的文件并删除它们：<br>   $ find logs -type f -mtime +5 -exec   -ok   rm {} \;<br>  （2）、pathname: find命令所查找的目录路径。例如用.来表示当前目录，用/来表示系统根目录。<br>-print： find命令将匹配的文件输出到标准输出。<br>-exec： find命令对匹配的文件执行该参数所给出的shell命令。相应命令的形式为’command’ { } \;，注意{ }和\；之间的空格。<br>-ok： 和-exec的作用相同，只不过以一种更为安全的模式来执行该参数所给出的shell命令，在执行每一个命令之前，都会给出提示，让用户来确定是否执行。</p>
+<p>#-print 将查找到的文件输出到标准输出</p>
+<p>#-exec   command   {} \;      —–将查到的文件执行command操作,{} 和 \;之间有空格</p>
+<p>#-ok 和-exec相同，只不过在操作前要询用户<br>Grep<br>$ grep ‘test’ d<em><br>显示所有以d开头的文件中包含 test的行。<br>$ grep ‘test’ aa bb cc<br>显示在aa，bb，cc文件中匹配test的行。<br>$ grep ‘[a-z]{5}’ aa<br>显示所有包含每个字符串至少有5个连续小写字符的字符串的行。<br>$ grep ‘w(es)t.</em>\1′ aa<br>如果west被匹配，则es就被存储到内存中，并标记为1，然后搜索任意个字符(.<em>)，这些字符后面紧跟着 另外一个es(\1)，找到就显示该行。如果用egrep或grep -E，就不用”\”号进行转义，直接写成’w(es)t.</em>\1′就可以了。</p>
+<p>5压缩文件和解压缩<br>tar -cxvf <strong><em>.tar.gz </em></strong><br>Tar -xzvf <em>*</em>.tar.gz<br>6、文本处理<br>head -n file 查看文件的前N行，n缺省值为10；<br>Tail -n file 查看文件尾n行，n缺省为10<br>Tail -f keyi 动态显示文件的追加内容<br>Cut -d分隔符号 -f 后面加需要的列<br>Sort排序<br>-t分列符；-k对列排序，缺省安ASCII，-n按照数字排序，-r<br>逆序<br>Wc统计单词个数<br>-l -w -c<br>管道 | 本质：内核的一块缓冲区<br>//求出家目录下的最大三个个子目录<br>du ~ | sort -k1 -n -r | head -3 | cut  -f1<br>uniq 去除相邻的重复行</p>
+<p>输入输出重定向<br>    输入 缺省是键盘 0  stdin<br>    输出 缺省是屏幕 1  stdout<br>    出错 缺省是屏幕 2  stderr<br>    如果改变数据的来源，就叫输入重定向<br>    如果改变数据的去向，就叫输出重定向<br>    &lt; 输入重定向</p>
+<pre><code>&gt; 输出重定向
+&gt;&gt; 追加输出
+&lt;&lt; 表示已&lt;&lt;后面的标记作为结束符
+</code></pre><p>ps -ef<br>pstree<br>top </p>
+<p>kill pid</p>
+<p>ctrl +c<br>ctrl +\</p>
+<p>kill -KILL pid<br>killall name</p>
+<p>./a.out &amp; 以后台方式启动进程<br>jobs 查看后台作业<br>bg %i 让后台暂停的任务执行<br>fg 将后台任务调到前台<br>ctrl  + z 将前台任务调到后台</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/01/18/linuxNote04/" itemprop="url">
                   linuxNote04
                 </a>
@@ -904,7 +1012,7 @@ c 字符设备    ls -l/dev/dey*
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-count">6</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
