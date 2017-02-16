@@ -238,6 +238,125 @@
             
               
                 
+                <a class="post-title-link" href="/2017/02/16/LinuxNote07/" itemprop="url">
+                  LinuxNote07
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-02-16T15:38:02+08:00" content="2017-02-16">
+              2017-02-16
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>提纲： - 1.线程特点</p>
+<pre><code>- 2.pthread创建
+
+- 3.pthread终止
+
+    - 4.mutex互斥量使用框架
+
+    - 5.cond条件变量
+
+    - 6.综合实例
+</code></pre><p>01、线程拥有自己独立的栈、调度优先级和策略、信号屏蔽字（创建时继承）、errno变量以及线程私有数据。进程的其他地址空间均被所有线程所共享，因此线程可以访问程序的全局变量和堆中分配的数据，并通过同步机制保证对数据访问的一致性。</p>
+<pre><code>pthread库不是Linux系统默认的库，连接时需要使用静态库libpthread.a，所以在线程函数在编译时，需要连接库函数， gcc pthread_create.c -o pthread_create -lpthread
+</code></pre><p>02、// 创建一个线程<br>int pthread_create(pthread_t <em>thread, // 线程id<br>        const pthread_attr_t </em>attr, // 线程属性一般设置为 NULL<br>        void <em>(</em>start_routine) (void <em>),  // 线程处理函数（线程函数的起始地址）<br>        void </em>arg); // 线程处理函数的参数    必须为Void *  若不是则强转</p>
+<p>03、线程的终止  // pthread_join//pthread_exit</p>
+<p>a) 从线程函数中返回</p>
+<p>b) 被同一进程中的其他线程取消</p>
+<p>c) 线程调用pthread_exit</p>
+<p>注意，线程的返回值需要转换为void *类型。</p>
+<p>pthread_exit(void *ret)</p>
+<p>pthread_join(pthread_t id, void **ret)</p>
+<p>ret均可设置为NULL</p>
+<p>sched_yield();放弃cpu  </p>
+<p>04.、 mutex 互斥量使用框架<br>   a. 定义全局变量 pthread_mutex_t mutex<br>   b. 初始化全局变量 pthread_mutex_init(&amp;mutex, 0);<br>   c. pthread_mutex_lock(&amp;mutex)   p操作<br>   pthread_mutex_unlock(&amp;mutex); v操作<br>   d. 销毁互斥量 pthread_mutex_destroy(&amp;mutex);<br>05、<br>    a. 定义条件量 pthread_cond_t cond;<br>    b. 初始化 pthread_cond_init<br>    c. ptrhead_cond_wait 等待条件<br>        pthread_cond_signal 使条件得到满足<br>    d. 销毁条件量 pthread_cond_destroy</p>
+<p>//唤醒条件变量</p>
+<p>pthread_cond_signal</p>
+<p>pthread_cond_broadcast</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/01/19/LinuxNote05/" itemprop="url">
                   LinuxNote05
                 </a>
@@ -1012,7 +1131,7 @@ c 字符设备    ls -l/dev/dey*
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-count">7</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1022,7 +1141,7 @@ c 字符设备    ls -l/dev/dey*
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
