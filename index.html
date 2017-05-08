@@ -238,6 +238,213 @@
             
               
                 
+                <a class="post-title-link" href="/2017/05/08/c语言读写BMP格式文件/" itemprop="url">
+                  c语言读写BMP格式文件
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-05-08T19:25:24+08:00" content="2017-05-08">
+              2017-05-08
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><span style="font-size:16px;">#include “Windows.h”<br>2.#include “stdio.h”<br>3.#include “string.h”<br>4.#include “malloc.h”  </p>
+<ol>
+<li>6.unsigned char <em>pBmpBuf;//读入图像数据的指针<br>7.int bmpWidth;//图像的宽<br>8.int bmpHeight;//图像的高<br>9.RGBQUAD </em>pColorTable;//颜色表指针<br>10.int biBitCount;//图像类型，每像素位数  </li>
+<li>12.bool readBmp(char *bmpName)<br>13.{  </li>
+<li>//二进制读方式打开指定的图像文件  </li>
+<li>FILE *fp=fopen(bmpName,”rb”);  </li>
+<li>if(fp==0) return 0;  </li>
+<li></li>
+<li></li>
+<li>//跳过位图文件头结构BITMAPFILEHEADER  </li>
+<li>fseek(fp, sizeof(BITMAPFILEHEADER),0);  </li>
+<li>//定义位图信息头结构变量，读取位图信息头进内存，存放在变量head中  </li>
+<li>BITMAPINFOHEADER head;     </li>
+<li>fread(&amp;head, sizeof(BITMAPINFOHEADER), 1,fp);    </li>
+<li>//获取图像宽、高、每像素所占位数等信息  </li>
+<li>bmpWidth = head.biWidth;  </li>
+<li>bmpHeight = head.biHeight;  </li>
+<li>biBitCount = head.biBitCount;  </li>
+<li>//定义变量，计算图像每行像素所占的字节数（必须是4的倍数）  </li>
+<li>int lineByte=(bmpWidth <em> biBitCount/8+3)/4</em>4;  </li>
+<li>//灰度图像有颜色表，且颜色表表项为256  </li>
+<li>if(biBitCount==8){  </li>
+<li>//申请颜色表所需要的空间，读颜色表进内存  </li>
+<li>pColorTable=new RGBQUAD[256];  </li>
+<li>fread(pColorTable,sizeof(RGBQUAD),256,fp);  </li>
+<li>}  </li>
+<li>//申请位图数据所需要的空间，读位图数据进内存  </li>
+<li>pBmpBuf=new unsigned char[lineByte * bmpHeight];  </li>
+<li>fread(pBmpBuf,1,lineByte * bmpHeight,fp);  </li>
+<li>//关闭文件  </li>
+<li>fclose(fp);  </li>
+<li>return 1;<br>42.}  </li>
+<li>44.bool saveBmp(char <em>bmpName, unsigned char </em>imgBuf, int width, int height,    </li>
+<li>int biBitCount, RGBQUAD *pColorTable)<br>46.{  </li>
+<li>//如果位图数据指针为0，则没有数据传入，函数返回  </li>
+<li>if(!imgBuf)  </li>
+<li>return 0;  </li>
+<li>//颜色表大小，以字节为单位，灰度图像颜色表为1024字节，彩色图像颜色表大小为0  </li>
+<li>int colorTablesize=0;  </li>
+<li>if(biBitCount==8)  </li>
+<li>colorTablesize=1024;  </li>
+<li>//待存储图像数据每行字节数为4的倍数  </li>
+<li>int lineByte=(width <em> biBitCount/8+3)/4</em>4;  </li>
+<li>//以二进制写的方式打开文件  </li>
+<li>FILE *fp=fopen(bmpName,”wb”);  </li>
+<li>if(fp==0) return 0;  </li>
+<li>//申请位图文件头结构变量，填写文件头信息  </li>
+<li>BITMAPFILEHEADER fileHead;  </li>
+<li>fileHead.bfType = 0x4D42;//bmp类型  </li>
+<li>//bfSize是图像文件4个组成部分之和  </li>
+<li>fileHead.bfSize= sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER)  </li>
+<li><ul>
+<li>colorTablesize + lineByte*height;  </li>
+</ul>
+</li>
+<li>fileHead.bfReserved1 = 0;  </li>
+<li>fileHead.bfReserved2 = 0;  </li>
+<li>//bfOffBits是图像文件前3个部分所需空间之和  </li>
+<li>fileHead.bfOffBits=54+colorTablesize;  </li>
+<li>//写文件头进文件  </li>
+<li>fwrite(&amp;fileHead, sizeof(BITMAPFILEHEADER),1, fp);  </li>
+<li>//申请位图信息头结构变量，填写信息头信息  </li>
+<li>BITMAPINFOHEADER head;    </li>
+<li>head.biBitCount=biBitCount;  </li>
+<li>head.biClrImportant=0;  </li>
+<li>head.biClrUsed=0;  </li>
+<li>head.biCompression=0;  </li>
+<li>head.biHeight=height;  </li>
+<li>head.biPlanes=1;  </li>
+<li>head.biSize=40;  </li>
+<li>head.biSizeImage=lineByte*height;  </li>
+<li>head.biWidth=width;  </li>
+<li>head.biXPelsPerMeter=0;  </li>
+<li>head.biYPelsPerMeter=0;  </li>
+<li>//写位图信息头进内存  </li>
+<li>fwrite(&amp;head, sizeof(BITMAPINFOHEADER),1, fp);  </li>
+<li>//如果灰度图像，有颜色表，写入文件    </li>
+<li>if(biBitCount==8)  </li>
+<li>fwrite(pColorTable, sizeof(RGBQUAD),256, fp);  </li>
+<li>//写位图数据进文件  </li>
+<li>fwrite(imgBuf, height*lineByte, 1, fp);  </li>
+<li>//关闭文件  </li>
+<li>fclose(fp);  </li>
+<li>return 1;<br>94.}  </li>
+<li>96.void main()<br>97.{  </li>
+<li>char inFileName[90],outFileName[90];<br>99.printf(“请输入原始位图文件的文件名:”);  </li>
+<li>scanf(“%s”,inFileName);  </li>
+<li>printf(“请输入加密程序产生的新位图文件的文件名:”);  </li>
+<li>scanf(“%s”,outFileName);<br>103.//读入指定BMP文件进内存  </li>
+<li>readBmp(inFileName);  </li>
+<li>//输出图像的信息  </li>
+<li>printf(“width=%d,height=%d, biBitCount=%d\n”,bmpWidth,bmpHeight, biBitCount);  </li>
+<li>//将图像数据存盘  </li>
+<li>saveBmp(outFileName, pBmpBuf, bmpWidth, bmpHeight, biBitCount, pColorTable);  </li>
+<li>//清除缓冲区，pBmpBuf和pColorTable是全局变量，在文件读入时申请的空间  </li>
+<li>delete []pBmpBuf;  </li>
+<li>if(biBitCount==8)  </li>
+<li>delete []pColorTable;<br>113.}<br>114.</span>  </li>
+</ol>
+<p>////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////</p>
+<p>一、BMP文件结构 </p>
+<p>BMP文件组成<br>BMP文件由文件头、位图信息头、颜色信息和图形数据四部分组成。<br>BMP文件头<br>BMP文件头数据结构含有BMP文件的类型、文件大小和位图起始位置等信息。<br>其结构定义如下:<br>typedef   struct   tagBITMAPFILEHEADER<br>{<br>WORDbfType;   //   位图文件的类型，必须为BM<br>DWORD   bfSize;   //   位图文件的大小，以字节为单位<br>WORDbfReserved1;   //   位图文件保留字，必须为0<br>WORDbfReserved2;   //   位图文件保留字，必须为0<br>DWORD   bfOffBits;   //   位图数据的起始位置，以相对于位图<br>//   文件头的偏移量表示，以字节为单位<br>}   BITMAPFILEHEADER; </p>
+<ol>
+<li>位图信息头 </li>
+</ol>
+<p>BMP位图信息头数据用于说明位图的尺寸等信息。<br>typedef   struct   tagBITMAPINFOHEADER{<br>DWORD   biSize;   //   本结构所占用字节数<br>LONGbiWidth;   //   位图的宽度，以像素为单位<br>LONGbiHeight;   //   位图的高度，以像素为单位<br>WORD   biPlanes;   //   目标设备的级别，必须为1<br>WORD   biBitCount//   每个像素所需的位数，必须是1(双色),<br>//   4(16色)，8(256色)或24(真彩色)之一<br>DWORD   biCompression;   //   位图压缩类型，必须是   0(不压缩),<br>//   1(BI_RLE8压缩类型)或2(BI_RLE4压缩类型)之一<br>DWORD   biSizeImage;   //   位图的大小，以字节为单位<br>LONGbiXPelsPerMeter;   //   位图水平分辨率，每米像素数<br>LONGbiYPelsPerMeter;   //   位图垂直分辨率，每米像素数<br>DWORD   biClrUsed;//   位图实际使用的颜色表中的颜色数<br>DWORD   biClrImportant;//   位图显示过程中重要的颜色数<br>}   BITMAPINFOHEADER; </p>
+<ol>
+<li>颜色表 </li>
+</ol>
+<p>　　颜色表用于说明位图中的颜色，它有若干个表项，每一个表项是一个RGBQUAD类型的结构，定义一种颜色。RGBQUAD结构的定义如下:<br>typedef   struct   tagRGBQUAD   {<br>BYTErgbBlue;//   蓝色的亮度(值范围为0-255)<br>BYTErgbGreen;   //   绿色的亮度(值范围为0-255)<br>BYTErgbRed;   //   红色的亮度(值范围为0-255)<br>BYTErgbReserved;//   保留，必须为0<br>}   RGBQUAD;<br>颜色表中RGBQUAD结构数据的个数有biBitCount来确定:<br>当biBitCount=1,4,8时，分别有2,16,256个表项;<br>当biBitCount=24时，没有颜色表项。<br>位图信息头和颜色表组成位图信息，BITMAPINFO结构定义如下:<br>typedef   struct   tagBITMAPINFO   {<br>BITMAPINFOHEADER   bmiHeader;   //   位图信息头<br>RGBQUAD   bmiColors[1];   //   颜色表<br>}   BITMAPINFO; </p>
+<ol>
+<li>位图数据<br>　　位图数据记录了位图的每一个像素值，记录顺序是在扫描行内是从左到右,扫描行之间是从下到上。位图的一个像素值所占的字节数:<br>当biBitCount=1时，8个像素占1个字节;<br>当biBitCount=4时，2个像素占1个字节;<br>当biBitCount=8时，1个像素占1个字节;<br>当biBitCount=24时,1个像素占3个字节;<br>Windows规定一个扫描行所占的字节数必须是<br>4的倍数(即以long为单位),不足的以0填充，<br>一个扫描行所占的字节数计算方法:<br>DataSizePerLine=   (biWidth<em>   biBitCount+31)/8;<br>//   一个扫描行所占的字节数<br>DataSizePerLine=   DataSizePerLine/4</em>4;   //   字节数必须是4的倍数<br>位图数据的大小(不压缩情况下):<br>DataSize=   DataSizePerLine*   biHeight;
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/05/08/c语言读写BMP格式文件/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/02/16/LinuxNote07/" itemprop="url">
                   LinuxNote07
                 </a>
@@ -1131,7 +1338,7 @@ c 字符设备    ls -l/dev/dey*
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-count">8</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1141,7 +1348,7 @@ c 字符设备    ls -l/dev/dey*
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
